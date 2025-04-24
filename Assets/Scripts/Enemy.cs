@@ -2,28 +2,28 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public Vector3 puntoA;
-    public Vector3 puntoB;
-    public float velocidadNormal = 2f;
-    public float velocidadRapida = 5f;
-    public float rangoDeteccion = 5f;
-    private float velocidadActual;
-    private Vector3 destino;
-    public LayerMask jugadorLayer;
+    public Vector3 PointA;
+    public Vector3 PointB;
+    public float normalSpeed = 2f;
+    public float detectSpeed = 5f;
+    public float range = 5f;
+    private float actualSpeed;
+    private Vector3 destiny;
+    public LayerMask playerLayer;
 
     void Start()
     {
-        destino = puntoA;
-        velocidadActual = velocidadNormal;
+        destiny = PointA;
+        actualSpeed = normalSpeed;
     }
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, destino, velocidadActual * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, destiny, actualSpeed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, destino) < 0.1f)
+        if (Vector3.Distance(transform.position, destiny) < 0.1f)
         {
-            destino = destino == puntoA ? puntoB : puntoA;
+            destiny = destiny == PointA ? PointB : PointA;
         }
 
         DetectarJugador();
@@ -31,20 +31,20 @@ public class Enemy : MonoBehaviour
 
     void DetectarJugador()
     {
-        Vector3 direccion = (destino - transform.position).normalized;
+        Vector3 direccion = (destiny - transform.position).normalized;
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, direccion, out hit, rangoDeteccion, jugadorLayer))
+        if (Physics.Raycast(transform.position, direccion, out hit, range, playerLayer))
         {
             if (hit.collider.CompareTag("Player"))
             {
-                velocidadActual = velocidadRapida;
-                Debug.DrawRay(transform.position, direccion * rangoDeteccion, Color.red);
+                actualSpeed = detectSpeed;
+                Debug.DrawRay(transform.position, direccion * range, Color.red);
             }
         }
         else
         {
-            velocidadActual = velocidadNormal;
+            actualSpeed = detectSpeed;
         }
     }
 }
