@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 1.1f))
         {
-            if (hit.collider.CompareTag("ground"))
+            if (hit.collider.CompareTag("Ground"))
             {
                 jumpCount = 2;
             }
